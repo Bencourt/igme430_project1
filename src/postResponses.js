@@ -3,25 +3,25 @@ const fs = require('fs');
 const query = require('querystring');
 
 //gets the users from the users.txt file
-const usersText = fs.readFileSync(`${__dirname}/users.txt`);
-const users = JSON.parse(usersText);
+let usersText = fs.readFileSync(`${__dirname}/users.txt`);
+let users = JSON.parse(usersText);
 
 //gets the posts from the postID.txt file
-const postIDText = fs.readFileSync(`${__dirname}/postID.txt`);
-const postID = JSON.parse(postIDText);
+let postIDText = fs.readFileSync(`${__dirname}/postID.txt`);
+let postID = JSON.parse(postIDText);
 
 //function to reload the users
 const reloadUsers = () => 
 {
-    const usersText = fs.readFileSync(`${__dirname}/users.txt`);
-    const users = JSON.parse(usersText);
+    usersText = fs.readFileSync(`${__dirname}/users.txt`);
+    users = JSON.parse(usersText);
 }
 
 //function to reload the posts
 const reloadPosts = () =>
 {
-    const postIDText = fs.readFileSync(`${__dirname}/postID.txt`);
-    const postID = JSON.parse(postIDText);
+    postIDText = fs.readFileSync(`${__dirname}/postID.txt`);
+    postID = JSON.parse(postIDText);
 }
 
 //basic respondJSON
@@ -79,9 +79,9 @@ const getPosts = (request, response, parsedUrl) => {
     responseJSON.postsArray = {};
     //if(!users[params.username])
     //{
-        for(let i = parseInt(params.numPosts); i < parseInt(params.numPosts) + 5; i++)
+        for(let i = 0; i < 5; i++)
         {
-            const postIdValue =  postID[Object.keys(postID)[i]];
+            const postIdValue =  postID[Object.keys(postID)[Object.keys(postID).length - (1+i)]];
             const postUsername = postIdValue.split('~./&?')[0];
             console.log(postUsername);
             responseJSON.postsArray[i.toString()] = users[postUsername].posts[postIdValue];
@@ -109,8 +109,8 @@ const getPosts = (request, response, parsedUrl) => {
             };
         }
         */
-        responseJSON.message = 'successfully retreived posts';
-        return respondJSON(request, response, status, responseJSON);
+        //responseJSON.message = 'successfully retreived posts';
+        //return respondJSON(request, response, status, responseJSON);
     //}
 }
 
