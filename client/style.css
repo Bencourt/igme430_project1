@@ -5,7 +5,7 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: #456cce;
+  background-color: #e6e4d2;
 }
 
 #top {
@@ -44,11 +44,11 @@ h1 {
 h2, h3 {
   font-family: "Roboto";
   font-weight: 400;
-  color: #fff;
+  color: #111;
 }
 
 h4, h5, h6, p{
   font-family: "Roboto";
   font-weight: 300;
-  color: #fff;
+  color: #111;
 }
