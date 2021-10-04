@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Tigr Home Page</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script type="text/babel">
+  
+    let username = "";
+    let numPosts = 0;
+
+    const handleResponse = (xhr, parseResponse) => {
+        const content = document.querySelector('#postStatus');
+        
+        switch (xhr.status) {
+          case 201:
+            content.innerHTML = '<b>Successfully Posted!</b>';
+            getPostsInit(numPosts);
+            break;
+          case 400:
+            content.innerHTML = '<b>Post not successful, check input fields</b>';
+            break;
+          case 404:
+            content.innerHTML = '<b>not found</b>';
+            break;
+          default:
+            content.innerHTML = '<b>not implemented by client</b>';
+            break;
+        };
+
+        if(parseResponse)
+        {
+          const obj = JSON.parse(xhr.response);
+          console.dir(obj);
+        }
+      };
+
+
+      const handlePosts = (xhr, parseResponse) => {
+        const content = document.querySelector('#content');
+        
+        switch (xhr.status) {
+          case 200:
+            const responseJSON = JSON.parse(xhr.response);
+            const posts = responseJSON.postsArray;
+            console.dir(responseJSON.message);
+            if(posts!=null){
+              for(let i = Object.keys(posts).length - 1; i>=0; i--)
+              {
+                content.innerHTML += '<hr>';
+                content.innerHTML += `<h4>${posts[i.toString()].username} at ${posts[i.toString()].postedTime}</h4>`;
+                content.innerHTML += `<p>${posts[i].text}</p>`;
+              }
+              numPosts+=5;
+            }
+            else
+            {
+              console.dir("error, no posts returned from server");
+            }
+            break;
+          case 400:
+            content.innerHTML = '<b>failed to load Tigr feed</b>';
+            break;
+          case 404:
+            content.innerHTML = '<b>not found</b>';
+            break;
+          default:
+            content.innerHTML = '<b>not implemented by client</b>';
+            break;
+        };
+
+        if(parseResponse)
+        {
+          const obj = JSON.parse(xhr.response);
+          //for(let i = 0; i<Object.keys(posts).length; i++)
+          //    {
+          //      console.dir(obj[i]);
+          //    }
+        }
+      };
+
+      const requestUpdate = (e, userForm) => {
+        const url = userForm.querySelector('#urlField').value;
+        const method = userForm.querySelector('#methodSelect').value;
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+
+        xhr.setRequestHeader('Accept', 'application/json');
+
+        if(method === 'get')
+        {
+          xhr.onload = () => handleResponse(xhr, true);
+        }
+        else
+        {
+          xhr.onload = () => handleResponse(xhr, false);
+        }
+
+        xhr.send();
+
+        e.preventDefault();
+        return false;
+      };
+
+      
+      const sendPost = (e, userForm) =>
+      {
+        e.preventDefault();
+
+        const userAction = userForm.getAttribute('action');
+        const userMethod = userForm.getAttribute('method');
+
+        //const userField = username;
+        const textField = userForm.querySelector('#postField');
+
+        const xhr = new XMLHttpRequest();
+        xhr.open(userMethod, userAction);
+
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = () => handleResponse(xhr);
+
+        const time = Date.now();
+        const formData = `username=${username}&post=${textField.value}&postedTime=${time}`;
+        xhr.send(formData);
+
+        return false;
+      }
+      
+
+      const getPostsInit = (numPosts) =>{
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('get', `/getPosts?numPosts=0&username=${username}`);
+        xhr.setRequestHeader('Accept', 'application/json');
+        
+        xhr.onload = () => handlePosts(xhr, true);
+        xhr.send();
+        return false;
+      }
+
+      const getPosts = (e, numPosts) =>{
+        e.preventDefault();
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('get', `/getPosts?numPosts=${numPosts}&username=${username}`);
+        xhr.setRequestHeader('Accept', 'application/json');
+        
+        xhr.onload = () => handlePosts(xhr, true);
+        xhr.send();
+        return false;
+      }
+
+      const init = () => {
+        
+        username = localStorage.getItem('username');
+        localStorage.removeItem('username');
+        getPostsInit(numPosts)
+
+        const postForm = document.querySelector('#postForm');
+        const addPost = (e) => sendPost(e, postForm);
+        postForm.addEventListener('submit', addPost);
+
+        const refreshForm = document.querySelector('#refresh')
+        const refreshFeed = (e) => getPosts(e, numPosts);
+        refreshForm.addEventListener('submit', refreshFeed);
+
+        document.querySelector("#user").innerHTML =  `<h2>${username}</h2>`;
+      };
+
+      window.onload = init;
+
+  </script>
+</head>
+<body>
+  <section id="top">
+    <div id="user">
+    </div>
+    <h3>Make a new post!</h3>
+    <form id="postForm" action="/addPost" method="post">
+      <label for="post">Post: </label>
+      <input id="postField" type="text" name="post" maxlength="255"/>
+      <input type="submit" value="Post" />
+    </form>
+    <div id="postStatus">
+    </div>
+  </section>
+  <section id="reload">
+    <form id="refresh" action="/getPosts" method="get">
+      <input type="submit" value="Refresh Feed" />
+    </form>
+  </section>
+  <section id="content">
+  </section>
+</body>
+</html>

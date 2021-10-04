@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>login to Tigr</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script type="text/babel">
+    const handleResponse = (xhr, parseResponse) => {
+        const content = document.querySelector('#content');
+        
+        const obj = JSON.parse(xhr.response);
+        const xhrHomepage = new XMLHttpRequest();;
+        switch (xhr.status) {
+          case 200:
+            content.innerHTML = '<b>logging you in</b>';
+            xhrHomepage.open('get', '/homepage');
+            localStorage.setItem('username', `${obj.username}`);
+            xhrHomepage.setRequestHeader('Document', 'text/html');
+            xhrHomepage.send();
+            break;
+          case 201:
+            content.innerHTML = '<b>new user created, logging in</b>';
+            xhrHomepage.open('get', '/homepage');
+            localStorage.setItem('username', `${obj.username}`);
+            xhrHomepage.setRequestHeader('Accept', 'text/html');
+            xhrHomepage.send();
+            break;
+          case 400:
+            content.innerHTML = '<b>please try again</b>';
+            break;
+          case 404:
+            content.innerHTML = '<b>not found</b>';
+            break;
+          default:
+            content.innerHTML = '<b>not implemented by client</b>';
+            break;
+        };
+      };
+/*
+      const requestUpdate = (e, userForm) => {
+        const url = userForm.querySelector('#urlField').value;
+        const method = userForm.querySelector('#methodSelect').value;
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+
+        xhr.setRequestHeader('Accept', 'application/json');
+
+        if(method === 'get')
+        {
+          xhr.onload = () => handleResponse(xhr, true);
+        }
+        else
+        {
+          xhr.onload = () => handleResponse(xhr, false);
+        }
+
+        xhr.send();
+
+        e.preventDefault();
+        return false;
+      };*/
+
+      const sendPost = (e, userForm) =>
+      {
+        e.preventDefault();
+
+        const userAction = userForm.getAttribute('action');
+        const userMethod = userForm.getAttribute('method');
+
+        const userField = userForm.querySelector('#userField');
+        const passwordField = userForm.querySelector('#passwordField');
+
+        const xhr = new XMLHttpRequest();
+        xhr.open(userMethod, userAction);
+
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = () => handleResponse(xhr);
+
+        const formData = `username=${userField.value}&password=${passwordField.value}`;
+        xhr.send(formData);
+
+        return false;
+      }
+
+      const init = () => {
+        
+
+        const userForm = document.querySelector('#userForm');
+        
+        const addUser = (e) => sendPost(e, userForm);
+        
+        userForm.addEventListener('submit', addUser);
+
+      };
+
+      window.onload = init;
+
+  </script>
+</head>
+<body>
+  <section id="top">
+    <h3>Login or make a new user here:</h3>
+    <form id="userForm" action="/addUser" method="post">
+      <label for="user">Username: </label>
+      <input id="userField" type="text" name="user" />
+      <label for="password">Password: </label>
+      <input id="passwordField" type="text" name="password"/>
+      <input type="submit" value="Add User" />
+    </form>
+  </section>
+  <section id="content">
+  </section>
+</body>
+</html>
