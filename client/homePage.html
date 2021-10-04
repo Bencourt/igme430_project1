@@ -50,8 +50,9 @@
               for(let i = 0; i < Object.keys(posts).length - 1; i++)
               {
                 content.innerHTML += '<hr>';
-                content.innerHTML += `<h4>${posts[i.toString()].username} at ${posts[i.toString()].postedTime}</h4>`;
+                content.innerHTML += `<h3>${posts[i.toString()].username} at time: ${posts[i.toString()].postedTime}</h3>`;
                 content.innerHTML += `<p>${posts[i].text}</p>`;
+                content.innerHTML += '<form><button type="button">Like!</button></form>';
               }
               numPosts+=5;
             }
