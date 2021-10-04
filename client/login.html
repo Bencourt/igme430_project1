@@ -18,6 +18,7 @@
             localStorage.setItem('username', `${obj.username}`);
             xhrHomepage.setRequestHeader('Document', 'text/html');
             xhrHomepage.send();
+            window.location.href = '/homepage'
             break;
           case 201:
             content.innerHTML = '<b>new user created, logging in</b>';
@@ -25,6 +26,7 @@
             localStorage.setItem('username', `${obj.username}`);
             xhrHomepage.setRequestHeader('Accept', 'text/html');
             xhrHomepage.send();
+            window.location.href = '/homepage';
             break;
           case 400:
             content.innerHTML = '<b>please try again</b>';
