@@ -11,19 +11,19 @@ const getLogoWhite = (request, response) => {
 };
 
 const getLogoOrange = (request, response) => {
-    response.writeHead(200, { 'Content-Type': 'image/png' });
-    response.write(logoOrange);
-    response.end();
-  };
+  response.writeHead(200, { 'Content-Type': 'image/png' });
+  response.write(logoOrange);
+  response.end();
+};
 
 const getTigrLogin = (request, response) => {
-    response.writeHead(200, { 'Content-Type': 'image/png' });
-    response.write(tigrLogin);
-    response.end();
+  response.writeHead(200, { 'Content-Type': 'image/png' });
+  response.write(tigrLogin);
+  response.end();
 };
 
 module.exports = {
-    getLogoWhite,
-    getLogoOrange,
-    getTigrLogin,
-}
+  getLogoWhite,
+  getLogoOrange,
+  getTigrLogin,
+};

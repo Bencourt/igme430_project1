@@ -5,107 +5,94 @@ const htmlHandler = require('./htmlResponses.js');
 const mediaHandler = require('./mediaResponses.js');
 const jsonHandler = require('./jsonResponses.js');
 const postHandler = require('./postResponses.js');
-//const { parse } = require('path');
+// const { parse } = require('path');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const URLStruct = {
-    'GET':
+  GET:
     {
-        '/' : htmlHandler.getIndex,
-        '/style.css' : htmlHandler.getCSS,
-        '/media/logoWhite.png' : mediaHandler.getLogoWhite,
-        '/media/logoOrange.png' : mediaHandler.getLogoOrange,
-        '/media/tigrLogin.png' : mediaHandler.getTigrLogin,
-        '/homepage' : htmlHandler.getHomepage,
-        '/getUsers' : jsonHandler.getUsers,
-        '/updateUser' : jsonHandler.updateUser,
-        '/getPosts' : postHandler.getPosts,
-        notFound : jsonHandler.notFound
+      '/': htmlHandler.getIndex,
+      '/style.css': htmlHandler.getCSS,
+      '/media/logoWhite.png': mediaHandler.getLogoWhite,
+      '/media/logoOrange.png': mediaHandler.getLogoOrange,
+      '/media/tigrLogin.png': mediaHandler.getTigrLogin,
+      '/homepage': htmlHandler.getHomepage,
+      '/getUsers': jsonHandler.getUsers,
+      '/updateUser': jsonHandler.updateUser,
+      '/getPosts': postHandler.getPosts,
+      notFound: jsonHandler.notFound,
     },
-    'HEAD' :
+  HEAD:
     {
-        '/getUsers' : jsonHandler.getUsersMeta,
-        notFound : jsonHandler.notFoundMeta
-    }
-}
-
-
-const handlePost = (request, response, parsedUrl) =>
-{
-    if(parsedUrl.pathname === '/addUser')
-    {
-        const body = [];
-
-        request.on('error', (err) => {
-            console.dir(err);
-            response.statusCode = 400;
-            response.end();
-        });
-
-        request.on('data', (chunk) => {
-            body.push(chunk);
-        });
-
-        request.on('end', () => {
-            const bodyString = Buffer.concat(body).toString();
-            const bodyParams = query.parse(bodyString);
-
-            jsonHandler.addUser(request, response, bodyParams);
-        });
-    }
-    if(parsedUrl.pathname === '/addPost')
-    {
-        const body = [];
-
-        request.on('error', (err) => {
-            console.dir(err);
-            response.statusCode = 400;
-            response.end();
-        });
-
-        request.on('data', (chunk) => {
-            body.push(chunk);
-        });
-
-        request.on('end', () => {
-            const bodyString = Buffer.concat(body).toString();
-            const bodyParams = query.parse(bodyString);
-
-            postHandler.addPost(request, response, bodyParams);
-        });
-    }
+      '/getUsers': jsonHandler.getUsersMeta,
+      notFound: jsonHandler.notFoundMeta,
+    },
 };
 
-const handleGetHead = (request, response, parsedUrl) =>
-{
-  if(URLStruct[request.method][parsedUrl.pathname])
-  {
-      URLStruct[request.method][parsedUrl.pathname](request, response, parsedUrl);
-  }
-  else
-  {
-      URLStruct[request.method].notFound(request, response);
-  }
-}
+const handlePost = (request, response, parsedUrl) => {
+  if (parsedUrl.pathname === '/addUser') {
+    const body = [];
 
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+
+      jsonHandler.addUser(request, response, bodyParams);
+    });
+  }
+  if (parsedUrl.pathname === '/addPost') {
+    const body = [];
+
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+
+      postHandler.addPost(request, response, bodyParams);
+    });
+  }
+};
+
+const handleGetHead = (request, response, parsedUrl) => {
+  if (URLStruct[request.method][parsedUrl.pathname]) {
+    URLStruct[request.method][parsedUrl.pathname](request, response, parsedUrl);
+  } else {
+    URLStruct[request.method].notFound(request, response);
+  }
+};
 
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
 
   console.dir(parsedUrl.pathname);
   console.dir(request.method);
-if(request.method === 'GET' || request.method === 'HEAD')
-{
+  if (request.method === 'GET' || request.method === 'HEAD') {
     handleGetHead(request, response, parsedUrl);
-}
-else if(request.method === 'POST')
-{
+  } else if (request.method === 'POST') {
     handlePost(request, response, parsedUrl);
-}
-else{
+  } else {
     URLStruct[request.method].notFound(request, response);
-}
+  }
 };
 
 http.createServer(onRequest).listen(port);
