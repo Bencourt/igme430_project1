@@ -49,10 +49,14 @@
             if(posts!=null){
               for(let i = 0; i < Object.keys(posts).length - 1; i++)
               {
-                content.innerHTML += '<hr>';
-                content.innerHTML += `<h3>${posts[i.toString()].username} at time: ${posts[i.toString()].postedTime}</h3>`;
-                content.innerHTML += `<p>${posts[i].text}</p>`;
-                content.innerHTML += '<form><button type="button">Like!</button></form>';
+                let postTime = Date.parse(posts[i.toString()].postedTime)
+
+                content.innerHTML += `<div class="post"><h3>${posts[i.toString()].username}</h3><h4>${postTime.toLocaleString()}</h4><p>${posts[i].text}</p><form><button type="button">Like!</button></form></div>`;
+                //content.innerHTML += `<h3>${posts[i.toString()].username}</h3>`;
+                //content.innerHTML += `<h4>${postTime.toLocaleString("en-US")}</h4>`;
+                //content.innerHTML += `<p>${posts[i].text}</p>`;
+                //content.innerHTML += '<form><button type="button">Like!</button></form>';
+                //content.innerHTML += '</div>';
               }
               numPosts+=5;
             }
@@ -173,7 +177,7 @@
         const refreshFeed = (e) => getPosts(e, numPosts);
         refreshForm.addEventListener('submit', refreshFeed);
 
-        document.querySelector("#user").innerHTML =  `<h2>${username}</h2>`;
+        document.querySelector("#user").innerHTML =  `<h1>${username}</h1>`;
       };
 
       window.onload = init;
@@ -181,19 +185,30 @@
   </script>
 </head>
 <body>
-  <section id="top">
+  <section id="topBar">
+    <form id="searchForm" action="/search" method="get">
+      <input id="searchField" type="text" name="search" maxlength="255" />
+      <input type="submit" value="Search" />
+    </form>
+  </section>
+  <section id="userSection">
     <div id="user">
     </div>
+    <div id="bio">
+      <p>This is an example user bio.</p>
+    </div>
+  </section>
+  <section id="postSection">
     <h3>Make a new post!</h3>
     <form id="postForm" action="/addPost" method="post">
       <label for="post">Post: </label>
       <input id="postField" type="text" name="post" maxlength="255"/>
-      <input type="submit" value="Post" />
+      <input type="submit" value="Post"/>
     </form>
     <div id="postStatus">
     </div>
   </section>
-  <section id="reload">
+  <section id="refreshSection">
     <form id="refresh" action="/getPosts" method="get">
       <input type="submit" value="Refresh Feed" />
     </form>

@@ -2,6 +2,7 @@ const http = require('http');
 const url = require('url');
 const query = require('querystring');
 const htmlHandler = require('./htmlResponses.js');
+const mediaHandler = require('./mediaResponses.js');
 const jsonHandler = require('./jsonResponses.js');
 const postHandler = require('./postResponses.js');
 //const { parse } = require('path');
@@ -13,6 +14,9 @@ const URLStruct = {
     {
         '/' : htmlHandler.getIndex,
         '/style.css' : htmlHandler.getCSS,
+        '/media/logoWhite.png' : mediaHandler.getLogoWhite,
+        '/media/logoOrange.png' : mediaHandler.getLogoOrange,
+        '/media/tigrLogin.png' : mediaHandler.getTigrLogin,
         '/homepage' : htmlHandler.getHomepage,
         '/getUsers' : jsonHandler.getUsers,
         '/updateUser' : jsonHandler.updateUser,

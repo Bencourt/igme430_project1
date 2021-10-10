@@ -5,35 +5,9 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: #e6e6e6;
+  background-color: #fff;
 }
 
-#top {
-  text-align: center;
-  margin: 0 auto;
-}
-
-#reload {
-  text-align: center;
-  margin: 10px auto;
-}
-
-#top h1 {
-  font-size: 2em;
-}
-
-#content {
-  margin-top: 70px;
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 1em;
-  text-align: center;
-}
-
-#content h3 {
-  font-size: 1.5em;
-}
 
 h1 {
   font-family: "Roboto";
@@ -51,4 +25,147 @@ h4, h5, h6, p{
   font-family: "Roboto";
   font-weight: 300;
   color: #111;
+}
+
+#topbar {
+  background-color: #c65600;
+}
+#topbar img {
+  display: block;
+  width: 5%;
+  margin-left: 20px;
+}
+
+#container{
+  height: 100%;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+#container #left {
+  width: 50vw;
+}
+
+#container #left img{
+  display: block;
+  margin:auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#container #right{
+  margin: auto;
+  padding-left: 5%;
+  width: 50vw;
+  background-color: #fff;
+  text-align: left;
+}
+
+#container #right img{
+  width: 10%;
+  object-fit: scale-down;
+}
+
+#left h1{
+  font-size: 5em;
+  color:#fff;
+}
+
+#left h2{
+  color:#fff;
+  font-weight: 300;
+  font-size: 2.5em;
+}
+
+#top {
+  text-align: center;
+  margin: 0 auto;
+}
+
+#topBar {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: right;
+}
+#topBar form{
+  width: 300px;
+  margin: 10px;
+}
+
+#userSection
+{
+  width: 60vw;
+  margin:auto;
+}
+
+#userSection h1
+{
+  font-size: 2.5em;
+}
+
+#postSection
+{
+  width: 60vw;
+  margin: auto;
+  padding: 10px;
+  border: #ff8013;
+  border-style:solid;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-width: 5px;
+  border-radius: 10px;
+  background-color: #ffb06c;
+}
+
+#refresh {
+  text-align: center;
+  margin: 10px auto;
+}
+
+#content {
+  display: flex;
+  width: 60vw;
+  flex-direction: column;
+  margin:auto;
+}
+
+#content h3 {
+  font-size: 1.5em;
+}
+
+.post {
+  background-color: #fff;
+  color: #111;
+  border:#ffb06c;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 10px;
+  margin: 10px;
+  padding:10px;
+}
+
+.post h3{
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.post h4{
+  color: #333;
+  font-size: .75em;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.post p{
+  font-size: 1em;
+  font-weight: 400;
+}
+
+footer {
+  height: 5%;
+  padding: 15px;
+  background-color: #c65600;
+  font-style: italic;
+  text-align: center;
 }
