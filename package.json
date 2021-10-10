@@ -1,5 +1,5 @@
 {
-  "name": "http-api-assignment-ii",
+  "name": "api-project",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bencourt/http-api-assignment-ii.git"
+    "url": "git+https://github.com/Bencourt/igme430_project1.git"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +20,7 @@
     "eslint-plugin-import": "^2.18.2"
   },
   "bugs": {
-    "url": "https://github.com/Bencourt/http-api-assignment-ii/issues"
+    "url": "https://github.com/Bencourt/igme430_project1/issues"
   },
-  "homepage": "https://github.com/Bencourt/http-api-assignment-ii#readme"
+  "homepage": "https://github.com/Bencourt/igme430_project1#readme"
 }
