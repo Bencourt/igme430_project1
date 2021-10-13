@@ -49,14 +49,10 @@
             if(posts!=null){
               for(let i = 0; i < Object.keys(posts).length - 1; i++)
               {
-                let postTime = Date.parse(posts[i.toString()].postedTime)
+                let postNumber = parseInt(posts[i.toString()].postedTime, 10)
+                let postTime = new Date(postNumber);
 
-                content.innerHTML += `<div class="post"><h3>${posts[i.toString()].username}</h3><h4>${postTime.toLocaleString()}</h4><p>${posts[i].text}</p><form><button type="button">Like!</button></form></div>`;
-                //content.innerHTML += `<h3>${posts[i.toString()].username}</h3>`;
-                //content.innerHTML += `<h4>${postTime.toLocaleString("en-US")}</h4>`;
-                //content.innerHTML += `<p>${posts[i].text}</p>`;
-                //content.innerHTML += '<form><button type="button">Like!</button></form>';
-                //content.innerHTML += '</div>';
+                content.innerHTML += `<div class="post"><h3>${posts[i.toString()].username}</h3><h4>${postTime.toLocaleString()}</h4><p>${posts[i].text}</p></div>`;
               }
               numPosts+=5;
             }
@@ -185,12 +181,12 @@
   </script>
 </head>
 <body>
-  <section id="topBar">
+  <!-- <section id="topBar">
     <form id="searchForm" action="/search" method="get">
       <input id="searchField" type="text" name="search" maxlength="255" />
       <input type="submit" value="Search" />
     </form>
-  </section>
+  </section> -->
   <section id="userSection">
     <div id="user">
     </div>
